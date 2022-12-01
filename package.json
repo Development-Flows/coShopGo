@@ -1,10 +1,10 @@
 {
-  "name": "my-turborepo",
+  "name": "coShopGo",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "server/*"
   ],
   "scripts": {
     "build": "turbo run build",
