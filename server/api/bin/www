@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
+const mongoose = require("mongoose");
 
 /**
  * Get port from environment and store in Express.
@@ -24,6 +25,18 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+
+const startMongo = () => {
+  try {
+    mongoose.createConnection(process.env.MONGO_URL);
+    console.log("mongoUrl ",process.env.MONGO_URL)
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+
+//startMongo()
 
 server.listen(port);
 server.on('error', onError);
