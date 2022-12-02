@@ -33,3 +33,8 @@ yarn-error.log*
 .turbo
 /.env
 /.idea/*
+/server/api/.firebaserc
+/server/api/service/coshopgo-firebase-adminsdk-t2ssx-dc90bef8d6.json
+/server/api/firebase.json
+/server/api/firestore.indexes.json
+/server/api/firestore.rules
