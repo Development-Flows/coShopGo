@@ -4,6 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
+/*Firebase*/
+var serviceAccount = require("./service/coshopgo-firebase-adminsdk-t2ssx-dc90bef8d6.json");
+const admin = require("firebase-admin");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
 var indexRouter = require('./routes/index');
 
 var app = express();
