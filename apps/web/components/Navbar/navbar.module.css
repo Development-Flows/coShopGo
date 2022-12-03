@@ -1,0 +1,180 @@
+.navbarWrapper{
+    background: #fff;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 20px;
+}
+.navbarArea{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.brandName{
+    color: #000;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    margin-right: 35px;
+}
+.navbarTitle{
+    padding: 20px 15px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    cursor: pointer;
+}
+.navbarRight{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+}
+.search{
+    outline: none;
+    border: none;
+    font-weight: 600;
+    background: #f2f2f2;
+    border-radius: 20px;
+    padding: 15px 10px 15px 40px;
+    font-size: 12px;
+    width: 196px;
+}
+.searchIcon{
+    position: absolute;
+    left: 4%;
+    cursor: pointer;
+}
+.bag{
+    cursor: pointer;
+    margin-left: 20px;
+    position: relative;
+}
+.login{
+    cursor: pointer;
+    margin-left: 20px;
+}
+.searchContainer{
+    background-color: #fff;
+    width: 100%;
+    height: 693px;
+    visibility: hidden;
+    opacity: 0;
+}
+.searchContainerActive{
+    background-color: #fff;
+    width: 100%;
+    height: 693px;
+    visibility: visible;
+    opacity: 1;
+}
+.searchWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.searchTitle{
+    font-size: 16px;
+    color: #000;
+    font-weight: 700;
+    margin: 15px 0 ;
+}
+.searchList{
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+.searchItem{
+    padding: 5px 15px;
+    border: 2px solid #000;
+    border-radius: 24px;
+    color: #000;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    list-style-type: none;
+    transition: .3s ease-in-out;
+    font-weight: bold;
+}
+.searchItem:hover{
+    background-color: #f3f3f3;
+    border-radius: 0;
+}
+.gnTitle{
+    font-size: 20px;
+    color: #000;
+    font-weight: 700;
+    padding-left: 15px;
+    font-weight: bold;
+}
+.closeModal{
+    position: absolute;
+    padding: 10px;
+    top: 7%;
+    right: 2%;
+    background: 0;
+    border: 0;
+    cursor: pointer;
+}
+.bagModalContainer{
+    position: fixed;
+    width: 350px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background: #eee;
+    padding: 10px;
+    visibility: hidden;
+    opacity: 0;
+}
+.bagModalContainerActive{
+    position: fixed;
+    width: 350px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background: #fff;
+    padding: 10px;
+    visibility: visible;
+    opacity: 1;
+}
+.bagModalDetail{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.title{
+    font-weight: 900;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+.bagcloseModal{
+    background: 0;
+    border: 0;
+    cursor: pointer;
+}
+.bagModaltext{
+    margin-bottom: 80px;
+    text-align: start;
+}
+.bagModalButton{
+    color: #fff;
+    padding: 10px;
+    font-weight: 700;
+    background-color: #000;
+    border-radius: 24px;
+    width: 100%;
+    cursor:pointer;
+    border:0;
+    transition: .3s ease-in-out;
+}
+.bagModalButton:hover{
+    background-color: #29d698;
+    border: 0;
+}
