@@ -26,19 +26,16 @@ const footerData = {
       title: "KURUMSAL",
       items: [
         {
-          text: "SNEAKER",
+          text: "HAKKIMIZDA",
         },
         {
-          text: "GİYİM",
+          text: "İLETİŞİM",
         },
         {
-          text: "AKSESUAR",
+          text: "S.S.S",
         },
         {
-          text: "YENİLER",
-        },
-        {
-          text: "İNDİRİM",
+          text: "AYDINLATMA METNİ",
         },
       ],
     },
@@ -46,19 +43,16 @@ const footerData = {
       title: "HESABIM",
       items: [
         {
-          text: "SNEAKER",
+          text: "ÜYE OL",
         },
         {
-          text: "GİYİM",
+          text: "GİRİŞ YAP",
         },
         {
-          text: "AKSESUAR",
+          text: "SİPARİŞLERİM",
         },
         {
-          text: "YENİLER",
-        },
-        {
-          text: "İNDİRİM",
+          text: "FAVORİLERİM",
         },
       ],
     }
@@ -66,16 +60,32 @@ const footerData = {
 };
 const Footer = () => {
   return (
+    <>    
     <div className={styles.footerContainer}>
       <div className={styles.footerWrapper}>
         {footerData.allItems.map((item, index) => (
-          <>     
+          <div className={styles.footerArea}>    
           <div className={styles.titles} key={index}>{item.title}</div>
-           </>
+          <div className={styles.subItems}>
+            {
+              item.items.map((x) => (
+                <div className={styles.subText}>{x.text}</div>
+              ))
+            }
+          </div>
+           </div>
         ))}
       </div>
+      
     </div>
+      <div className={styles.footerCopyRightArea}>
+        <div className={styles.footerCopyRightText}>Copyright © 2022 coShopGo. İçeriklerin izinsiz kopyalanması yasaktır.</div>
+      </div>
+    </>
   );
 };
+
+
+
 
 export default Footer;
