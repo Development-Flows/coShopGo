@@ -1,5 +1,6 @@
 import Layout from '../components/layout'
 import { Roboto } from '@next/font/google'
+import 'swiper/css';
 import "../styles/global.css"
 
 const roboto = Roboto({

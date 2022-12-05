@@ -61,8 +61,7 @@
     background-color: #fff;
     width: 100%;
     height: 693px;
-    visibility: hidden;
-    opacity: 0;
+   display: none;
 }
 .searchContainerActive{
     background-color: #fff;
