@@ -1,6 +1,6 @@
-import { Navigation, A11y } from "swiper";
+import {Navigation, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import { Autoplay, Pagination } from "swiper";
 import styles from "./banner.module.css";
 
 const bannerData = [
@@ -24,10 +24,14 @@ const Banner = () => {
   return (
     <Swiper
       // install Swiper modules
-      modules={[Navigation, A11y]}
+      modules={[Navigation, A11y, Autoplay]}
       slidesPerView="auto"
       loop={true}
       navigation
+      autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
       pagination={{ clickable: true }}
       className="swiperSlider"
     >

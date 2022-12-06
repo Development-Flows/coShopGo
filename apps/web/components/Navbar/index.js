@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import cn from "classnames";
+import Link from "next/link";
 
 const navbarMenuData = {
   navbarMenuItems: [
@@ -86,9 +87,11 @@ const Navbar = () => {
             <button className={styles.bagModalButton}>ALIŞVERİŞE BAŞLA</button>
           </div>
           {/* AÇILIR KAPANIR SEPET AREA END */}
+          <Link href="/account/login">
           <div className={styles.login} style={{ fontSize: "22px" }}>
             <UserOutlined />
-          </div>
+          </div>  
+          </Link>
         </div>
       </div>
       <div
