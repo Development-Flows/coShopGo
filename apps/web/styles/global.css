@@ -26,16 +26,12 @@ body {
 }
 
 .swiperSlider .swiper-button-prev::after{
-  color: red;
-  font-size: 14px;
+  color: #fff;
+  font-size: 24px;
   font-weight: bold;
-  margin-right: 10px; 
-  padding: 8px;
 }
 .swiperSlider .swiper-button-next::after{
-  color: red;
-  font-size: 14px;
+  color: #fff;
+  font-size: 24px;
   font-weight: bold;
-  margin-left: 10px;
-  padding: 8px;
 }
