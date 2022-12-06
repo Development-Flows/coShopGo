@@ -27,8 +27,8 @@ router.post("/login", async function(req, res, next) {
   }
 });
 
-router.get("/register", async (req, res) => {
-  const { NAME, LASTNAME, MAIL, PASSWORD } = req.query;
+router.post("/register", async (req, res) => {
+  const { NAME, LASTNAME, MAIL, PASSWORD } = req.body;
   try {
     const [checkUser] = (await db.collection("user").limit(1).where("mail", "==", MAIL).get()).docs;
     if (checkUser) return res.json({ status: false, errorMessage: "E-mail address already exists" });
