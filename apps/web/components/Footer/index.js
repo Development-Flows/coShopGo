@@ -64,13 +64,13 @@ const Footer = () => {
       <div className={styles.footerContainer}>
         <div className={styles.footerWrapper}>
           {footerData.allItems.map((item, index) => (
-            <div className={styles.footerArea}>
+            <div key={index} className={styles.footerArea}>
               <div className={styles.titles} key={index}>
                 {item.title}
               </div>
               <div className={styles.subItems}>
-                {item.items.map((x) => (
-                  <div className={styles.subText}>{x.text}</div>
+                {item.items.map((x, index) => (
+                  <div key={index} className={styles.subText}>{x.text}</div>
                 ))}
               </div>
             </div>
