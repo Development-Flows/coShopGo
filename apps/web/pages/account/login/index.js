@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./login.module.css";
 
 const Login = () => {
@@ -17,13 +18,21 @@ const Login = () => {
         <div className={styles.subInfo}>
           <div className={styles.forgotPassword}>Parolamı Unuttum</div>
           <div className={styles.accountInfo}>
-            Hesabınız yok mu? <span className={styles.registerRedirect}>Kayıt ol</span>
+            Hesabınız yok mu?
+            <Link href="/account/register"><span className={styles.registerRedirect}>Kayıt ol</span></Link>
           </div>
         </div>
-       <div className={styles.loginInfoContainer}>
-         <div className={styles.loginInfo}>E-ticaret altyapımızı size daha iyi bir deneyim sunmak için yeniledik!</div>
-         <div className={styles.loginInfoTwo}>Hesabınıza giriş yapamıyorsanız <span className={styles.smallInfo}> PAROLAMI UNUTTUM </span> butonunu kullanarak şifrenizi yenilemelisiniz</div>
-       </div>
+        <div className={styles.loginInfoContainer}>
+          <div className={styles.loginInfo}>
+            E-ticaret altyapımızı size daha iyi bir deneyim sunmak için
+            yeniledik!
+          </div>
+          <div className={styles.loginInfoTwo}>
+            Hesabınıza giriş yapamıyorsanız
+            <span className={styles.smallInfo}> PAROLAMI UNUTTUM </span>
+            butonunu kullanarak şifrenizi yenilemelisiniz
+          </div>
+        </div>
       </div>
     </div>
   );
