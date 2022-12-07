@@ -1,0 +1,34 @@
+.categoriesWrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    position: relative;
+    width: 100%;
+}
+.denemetwo{
+    position: relative;
+}
+.deneme{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: absolute; 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+}
+.categoryImage{
+    width: 450px;
+    cursor: pointer;
+    margin-right: 30px;
+}
+.categoryTitle{
+    font-size: 36px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 20px;
+
+} 

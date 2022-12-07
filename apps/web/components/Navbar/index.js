@@ -57,7 +57,6 @@ const Navbar = () => {
           <div style={{ fontSize: "20px" }} className={styles.searchIcon}>
             <SearchOutlined />
           </div>
-          {/* ASD */}
           <div
             onClick={() => setBagModal(true)}
             className={styles.bag}
@@ -88,12 +87,13 @@ const Navbar = () => {
           </div>
           {/* AÇILIR KAPANIR SEPET AREA END */}
           <Link href="/account/login">
-          <div className={styles.login} style={{ fontSize: "22px" }}>
-            <UserOutlined />
-          </div>  
+            <div className={styles.login} style={{ fontSize: "22px" }}>
+              <UserOutlined />
+            </div>
           </Link>
         </div>
       </div>
+      {/* SEARCH AREA START */}
       <div
         className={cn(
           styles.searchContainer,
@@ -118,6 +118,7 @@ const Navbar = () => {
         </div>
         <div className={styles.gnTitle}>EŞLEŞEN ÜRÜNLER</div>
       </div>
+      {/* SEARCH AREA END */}
     </>
   );
 };
