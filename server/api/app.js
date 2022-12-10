@@ -16,6 +16,7 @@ admin.initializeApp({
 
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/product");
+var categoryRouter = require("./routes/category");
 
 var app = express();
 
@@ -45,8 +46,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/usercrud", indexRouter);
-app.use("/api", checkTokenFunc);
+//app.use("/api", checkTokenFunc);
 app.use("/api/product", userRouter);
+app.use("/api/category", categoryRouter);
 
 
 // catch 404 and forward to error handler
