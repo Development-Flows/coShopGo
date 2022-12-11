@@ -1,5 +1,5 @@
 import styles from './NewProduct.module.css'
-import {Input, Select, InputNumber, Button, Drawer, Tooltip} from 'antd';
+import {Input, Select, InputNumber, Button, Drawer, Tooltip, message, Form} from 'antd';
 
 import {useCallback, useState, useEffect} from 'react';
 import Axios from 'axios'
@@ -15,35 +15,34 @@ const NewProduct = () => {
 	const [variantDetails, setVariantDetails] = useState({});
 	const [variantDetailPopup, setVariantDetailPopup] = useState(false);
 
+	const [messageApi, contextHolder] = message.useMessage();
 
-	useEffect(() => {
-		console.log("variantDetailsvariantDetailsvariantDetailsvariantDetails", variantDetails)
-	}, [variantDetails]);
-
+	const AddProductSuccessful = () => {
+		messageApi.open({
+			type: 'Başarılı',
+			content: 'Ürün Ekleme Başarılı',
+		});
+	};
 	const selectChangeHandler = (value) => {
-		console.log(value);
 		setFormInputs({...formInputs, category: value})
 	}
 	const descChangeHandler = (e) => {
-		console.log("value", e)
 		setFormInputs({...formInputs, description: e.target.value})
 	}
 	const discountPriceChangeHandler = (value) => {
-		console.log("discountPriceChangeHandler")
 		setFormInputs({...formInputs, discountPrice: value})
 	}
 	const salePriceChangeHandler = (value) => {
 		setFormInputs({...formInputs, salePrice: value})
 	}
 	const nameChangeHandler = (e) => {
-		console.log("name")
 		setFormInputs({...formInputs, name: e.target.value})
 	}
-	const variantNameChange = (e) => {
+	const groupColorNameChange = (e) => {
 		setVariantDetails({...variantDetails, name: e.target.value})
 	}
 
-	const categoryOnMouseHandler = () => {
+	const getCategoryHandler = () => {
 		setLoading(true)
 		Axios.get("http://localhost:4000/api/category/getAll").then((response) => response.data).then((res) => {
 			if (res.status === true) {
@@ -58,30 +57,46 @@ const NewProduct = () => {
 	};
 
 	const addVariantHandler = () => {
-		console.log("addVariantHandler")
-	}
+		setLoading(true)
+		let variantArray = [];
+		variantList.map((product) => {
+			variantArray.push({
+				modelCode: product.modelCode,
+				variation: product.variantName,
+				priceMarket: product?.marketPrice ? product.marketPrice : 0,
+				priceSale: product.salePrice,
+				stock: product.stock,
+				colorName: product.modelCode,
+				category: formInputs.category,
+			})
+		})
 
-	const getRandomText = () => {
-		//Generate 5 random characters
-		let text = "";
-		let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-		possible = possible.split("");
-		for (let i = 0; i < 5; i++) {
-			text += possible[Math.floor(Math.random() * possible.length)];
-		}
-		return text;
+		Axios.post("http://localhost:4000/api/product/add", {
+			NAME: formInputs.name,
+			DESC: formInputs.description,
+			PHOTOS: [],
+			COLORS: variantArray
+		}).then((response) => response.data).then((data) => {
+			if (data.status === true) {
+				AddProductSuccessful()
+				//clear state
+				setVariantList([])
+				setVariantDetailPopup(false)
+				setVariantDetails({})
+				setFormInputs({})
+				setVariantPopup(false)
+			}
+		}).finally(() => setLoading(false));
 	}
 
 	const createVariantHandler = (variantName, stock, priceSale = formInputs?.salePrice, priceMarket = formInputs?.priceMarket) => {
 		//variantName ve stock zorunlu
 		if (!variantName) return;
-		console.log("createVariantHandler", {variantName, stock, priceSale, priceMarket})
 		if (variantName.length <= variantList.length) return
 
-		const getCurrentVariantName = variantName.pop()
 		setVariantList([...variantList, {
-			modelCode: `${variantDetails.name}-${getRandomText()}`,
-			variantName: getCurrentVariantName,
+			modelCode: `${variantDetails.name}`,
+			variantName: variantName,
 			stock: stock,
 			salePrice: priceSale,
 			marketPrice: priceMarket
@@ -90,33 +105,36 @@ const NewProduct = () => {
 
 	const removeVariantItem = (variantDetail) => {
 		if (!variantDetail) return;
-		const newVariantList = variantList.filter((variant) => variant.name !== variantDetail.name)
+		const newVariantList = variantList.filter((variant) => variant.variantName !== variantDetail.variantName)
+		setVariantList(newVariantList)
+	}
+
+	const deselectChangeHandler=(variantName)=>{
+		if (!variantName) return;
+		const newVariantList = variantList.filter((variant) => variant.variantName !== variantName)
 		setVariantList(newVariantList)
 	}
 
 	const updateVariantDetailHandler = () => {
-		console.log("updateVariantDetailHandler", variantDetails)
-		//change selected variant name
 		const getSelectedVariant = variantList.find((variant) => variant.variantName === variantDetails.variantName)
 		if (!getSelectedVariant) return;
-		console.log("lastList", variantList)
-		console.log("newList=>", [...variantList.filter(x => x.variantName !== variantDetails.variantName), {
+		setVariantList([...variantList.filter(x => x.variantName !== variantDetails.variantName), {
 			modelCode: variantDetails.modelCode,
 			variantName: variantDetails.variantName,
 			stock: variantDetails.stock,
 			salePrice: variantDetails.salePrice,
 			marketPrice: variantDetails.marketPrice
 		}])
-		//setVariantList({...variantList.filter(x=>x.name!==variantDetails.variantName), variantDetails})
 		setVariantDetailPopup(false);
 		setVariantDetails({})
 	}
 
-	const variantDetailHandler=(variantName)=>{
-		const getSelectedVariant = variantList.find((variant) => variant.variantName === variantName)
-		console.log("variantDetailHandler", variantDetails)
+	const variantDetailHandler = (caminData) => {
+		const getSelectedVariant = variantList.find((variant) => variant.variantName === caminData.variantName)
+		console.log("variantNamevariantName", getSelectedVariant, "variantListvariantList", variantList)
 		setVariantDetailPopup(true);
 		setVariantDetails({
+			name: variantDetails.name ?? "",
 			modelCode: getSelectedVariant.modelCode,
 			variantName: getSelectedVariant.variantName,
 			salePrice: getSelectedVariant.salePrice,
@@ -126,42 +144,49 @@ const NewProduct = () => {
 	}
 
 	useEffect(() => {
-		categoryOnMouseHandler()
+		getCategoryHandler()
 	}, [])
 
 	return <div className={styles.productContainer}>
-		{<pre>{JSON.stringify(formInputs, null, 2)}</pre>}
-		<div className={styles.perGroup}>
-			<h3>Ürün Temel Bilgiler</h3>
-			<div className={styles.perItem}>
-				<Input onChange={nameChangeHandler} maxLength={70} size={"large"} placeholder={"Ürün Adı"}></Input>
-			</div>
-			<div className={styles.perItem}>
-				<InputNumber onChange={salePriceChangeHandler}
-							 formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-							 style={{width: '50%'}} max={100000} placeholder={"Satış Fiyatı"}></InputNumber>
-				<InputNumber onChange={discountPriceChangeHandler} style={{width: '50%'}} max={100000}
-							 placeholder={"İndirimli Satış Fiyatı"}
-							 formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-				></InputNumber>
+		{contextHolder}
+		<Form>
+			<div className={styles.perGroup}>
+				<h3>Ürün Temel Bilgiler</h3>
+				<div className={styles.perItem}>
+					<Form.Item label="Ürün Adı">
+						<Input onChange={nameChangeHandler} maxLength={70} size={"large"}></Input>
+					</Form.Item>
+				</div>
+				<div className={styles.perItem} style={{display: "flex"}}>
+					<Form.Item label="Satış Fiyatı" style={{width: '50%'}}>
+						<InputNumber onChange={salePriceChangeHandler}
+									 formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+									 max={100000}></InputNumber>
+					</Form.Item>
 
+					<Form.Item label="Market Fiyatı" style={{width: '50%'}}>
+						<InputNumber onChange={discountPriceChangeHandler}
+									 formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+									 max={100000}></InputNumber>
+					</Form.Item>
+				</div>
 			</div>
-		</div>
-		<div className={styles.perGroup}>
-			<h3>Ürün Açıklaması</h3>
-			<div className={styles.perItem}>
-				<TextArea maxLength={150} onChange={descChangeHandler} rows={4} placeholder="Ürün Açıklaması"/>
+			<div className={styles.perGroup}>
+				<h3>Ürün Açıklaması</h3>
+				<div className={styles.perItem}>
+					<TextArea maxLength={150} onChange={descChangeHandler} rows={4} placeholder="Ürün Açıklaması"/>
+				</div>
+				<div className={styles.perItem}>
+					<Select mode="multiple"
+							loading={loading}
+							showSearch
+							style={{width: '100%'}}
+							placeholder="Lütfen Kategori Seçiniz"
+							onChange={selectChangeHandler}
+							options={categoryList}/>
+				</div>
 			</div>
-			<div className={styles.perItem}>
-				<Select mode="multiple"
-						loading={loading}
-						showSearch
-						style={{width: '100%'}}
-						placeholder="Lütfen Kategori Seçiniz"
-						onChange={selectChangeHandler}
-						options={categoryList}/>
-			</div>
-		</div>
+		</Form>
 
 		<div className={styles.perGroup}>
 			<h3>Varyantlar</h3>
@@ -186,20 +211,20 @@ const NewProduct = () => {
 						</div>
 					</div>
 					<div className={styles.content}>
-						<Input disabled={variantList.length > 0} onChange={variantNameChange}
+						<Input disabled={variantList.length > 0} onChange={groupColorNameChange}
 							   placeholder={"Renk Grubu Adı"}/>
 						<div className={styles.variantList}>
 							<h5>Beden Ekle</h5>
 							<Select mode="tags"
 									style={{width: '100%'}}
+									size={"large"}
 									placeholder="Lütfen Beden Seçiniz"
+									onDeselect={deselectChangeHandler}
 									onChange={(value) => createVariantHandler(value, 0)}
 							/>
-							<pre>{JSON.stringify(variantList, null, 2)}</pre>
-
 							{variantList.length > 0 && variantList.map((variant, index) => {
-								return <div className={styles.variantItem}>
-									<span>Color {variant.variantName}</span>
+								return <div key={index} className={styles.variantItem}>
+									<span>Varyant: {variant.variantName}</span>
 									<span className={styles.name}>{variant.name}</span>
 									<div className={styles.buttons}>
 										<Drawer
@@ -210,42 +235,58 @@ const NewProduct = () => {
 											open={variantDetailPopup}
 										>
 											<div className={styles.variantDetails}>
-												<Input placeholder={"Variant İsmi"}
-													   defaultValue={variantDetails.variantName}
-													   disabled={true}
-												></Input>
-												<InputNumber max={50} placeholder={"Stok"}
-															 onChange={(value) => setVariantDetails({
-																 ...variantDetails,
-																 stock: value
-															 })} defaultValue={0}></InputNumber>
-												<InputNumber
-													defaultValue={variantDetails.salePrice}
-													onChange={(value) => setVariantDetails({
-														...variantDetails,
-														salePrice: value
-													})}
-													formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-													style={{width: '50%'}} max={100000}
-													placeholder={"Satış Fiyatı"}></InputNumber>
-												<InputNumber style={{width: '50%'}} max={100000}
-															 defaultValue={variantDetails.marketPrice}
-															 onChange={(value) => setVariantDetails({
-																 ...variantDetails,
-																 marketPrice: value
-															 })}
-															 placeholder={"İndirimli Satış Fiyatı"}
-															 formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-												></InputNumber>
+												<Form>
+													<Form.Item label="Varyant Adı">
+														<Input style={{width: '100%'}} placeholder={"Variant İsmi"}
+															   value={variantDetails.variantName}
+															   disabled={true}
+														></Input>
+													</Form.Item>
+													<Form.Item label="Stok">
+														<InputNumber style={{width: '100%'}} max={50}
+																	 placeholder={"Stok"}
+																	 onChange={(value) => setVariantDetails({
+																		 ...variantDetails,
+																		 stock: value
+																	 })} value={variantDetails.stock}></InputNumber>
+													</Form.Item>
+
+													<Form.Item label="Satış Fiyatı">
+														<InputNumber
+															value={variantDetails.salePrice}
+															onChange={(value) => setVariantDetails({
+																...variantDetails,
+																salePrice: value
+															})}
+															formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+															style={{width: '100%'}} max={100000}
+															placeholder={"Satış Fiyatı"}></InputNumber>
+													</Form.Item>
+
+													<Form.Item label="İndirimli Fiyat">
+														<InputNumber style={{width: '100%'}} max={100000}
+																	 value={variantDetails.marketPrice ?? 0}
+																	 onChange={(value) => setVariantDetails({
+																		 ...variantDetails,
+																		 marketPrice: value
+																	 })}
+																	 placeholder={"İndirimli Satış Fiyatı"}
+																	 formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+														></InputNumber>
+													</Form.Item>
+
+
+												</Form>
 
 												<div className={styles.confirmButtons}>
 													<Button
-														onClick={() => updateVariantDetailHandler(variant)}>Onayla</Button>
+														onClick={() => updateVariantDetailHandler(variant)}>Kaydet</Button>
 												</div>
 
 											</div>
 										</Drawer>
-										<Button onClick={()=>variantDetailHandler(variant.variantName)} type="text">Düzenle</Button>
+										<Button onClick={() => variantDetailHandler(variant)}
+												type="text">Düzenle</Button>
 										<Button onClick={() => removeVariantItem(variant)} danger
 												type="text">Sil</Button>
 									</div>
