@@ -17,7 +17,17 @@ const Login = () => {
         password: Yup.string().required("Lütfen şifrenizi giriniz."),
       })}
       onSubmit={(values, { resetForm, setSubmitting }) => {
-        //  console.log("values::::::", values);
+        fetch("http://localhost:4000/usercrud/login", {
+          method:"POST",
+          body: JSON.stringify({MAIL:values.email, PASSWORD:values.password}),
+          headers:{
+            "Content-Type":"application/json"
+          }
+        }).then((response) => {
+            console.log("response::" , response)
+        }).catch((response) => {
+          console.log("responseresponseresponse!!catch", response)
+        })
         setTimeout(() => {
           resetForm();
           setSubmitting(false);

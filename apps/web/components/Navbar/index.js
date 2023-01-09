@@ -8,6 +8,7 @@ import {
 import { useState } from "react";
 import cn from "classnames";
 import Link from "next/link";
+import { Drawer } from "antd";
 
 const navbarMenuData = {
   navbarMenuItems: [
@@ -24,9 +25,6 @@ const navbarMenuData = {
       navTitle: "AKSESUAR",
     },
     {
-      navTitle: "MARKALAR",
-    },
-    {
       navTitle: "İNDİRİM",
     },
   ],
@@ -34,7 +32,14 @@ const navbarMenuData = {
 
 const Navbar = () => {
   const [searchModal, setSearchModal] = useState(false);
-  const [bagModal, setBagModal] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
@@ -58,33 +63,23 @@ const Navbar = () => {
             <SearchOutlined />
           </div>
           <div
-            onClick={() => setBagModal(true)}
+            onClick={showDrawer}
             className={styles.bag}
             style={{ fontSize: "22px" }}
           >
             <ShoppingOutlined />
           </div>
           {/* AÇILIR KAPANIR SEPET AREA START */}
-
-          <div
-            className={cn(
-              styles.bagModalContainer,
-              bagModal ? styles.bagModalContainerActive : ""
-            )}
+          <Drawer
+            width={420}
+            title="Sepetim"
+            placement="right"
+            onClose={onClose}
+            open={open}
           >
-            <div className={styles.bagModalDetail}>
-              <div className={styles.title}>Sepetim</div>
-              <button
-                onClick={() => setBagModal(false)}
-                className={styles.bagcloseModal}
-                style={{ fontSize: "18px" }}
-              >
-                <CloseOutlined />
-              </button>
-            </div>
-            <div className={styles.bagModaltext}>Sepetiniz Boş</div>
+            <p className={styles.bagEmptyText}>Sepetiniz Boş</p>
             <button className={styles.bagModalButton}>ALIŞVERİŞE BAŞLA</button>
-          </div>
+          </Drawer>
           {/* AÇILIR KAPANIR SEPET AREA END */}
           <Link href="/account/login">
             <div className={styles.login} style={{ fontSize: "22px" }}>

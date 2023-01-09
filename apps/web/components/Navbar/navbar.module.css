@@ -131,54 +131,11 @@
     border: 0;
     cursor: pointer;
 }
-.bagModalContainer{
-    position: fixed;
-    width: 350px;
-    height: 100%;
-    top: 0;
-    right: 0;
-    background: #eee;
-    padding: 10px;
-    visibility: hidden;
-    opacity: 0;
-    z-index: -1;
-    transform: translateX(-40px);
-    transition:visibility .0s linear .3s, z-index .0s linear .3s; 
-   
-}
-.bagModalContainerActive{
-    position: fixed;
-    width: 350px;
-    height: 100%;
-    top: 0;
-    right: 0;
-    background: #fff;
-    padding: 10px;
-    visibility: visible;
-    opacity: 1;
-    z-index: 5;
-    transform: translateX(0px);
-    transition: transform .3s ease .0s, opacity .1s linear .0s, visibility .0s linear .0s, z-index .0s linear .0s; 
-}
-.bagModalDetail{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-.title{
-    font-weight: 900;
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-.bagcloseModal{
-    background: 0;
-    border: 0;
-    cursor: pointer;
-}
-.bagModaltext{
-    margin-bottom: 80px;
-    text-align: start;
+.bagEmptyText{
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
 }
 .bagModalButton{
     color: #fff;
@@ -190,6 +147,7 @@
     cursor:pointer;
     border:0;
     transition: .3s ease-in-out;
+    margin-top: 20px;
 }
 .bagModalButton:hover{
     background-color: #29d698;

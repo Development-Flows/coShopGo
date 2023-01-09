@@ -5,11 +5,13 @@ const db = getFirestore();
 const { SignJWT } = require("jose");
 require("dotenv").config();
 const { v4 } = require("uuid");
+const { routes } = require("../app");
 
 router.post("/login", async function(req, res, next) {
   const { MAIL, PASSWORD } = req.body;
+  console.log({ MAIL, PASSWORD })
   try {
-    if (!MAIL || !PASSWORD) return res.status(400).send({ status: false, errorMessage: "Bad request" });
+    if (!MAIL || !PASSWORD) return res.status(400).send({ status: false, errorMessage: "Bad rasf asfsa  equest" });
     const [checkUser] = (await db.collection("user").limit(1).where("mail", "==", MAIL).where("password", "==", PASSWORD).get()).docs;
     if (checkUser) {
       const token = await new SignJWT({
@@ -58,4 +60,5 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.get("/furkan", async(req, res) => {return res.json({furkan:{furkan:"kerim"}})})
 module.exports = router;

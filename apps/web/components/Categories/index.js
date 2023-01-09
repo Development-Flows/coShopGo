@@ -20,10 +20,10 @@ const Categories = () => {
          <div className={styles.categoriesWrapper}>
             {
                 categoriesData.map((categories,index) => (
-                    <div className={styles.denemetwo}>   
+                    <div key={index} className={styles.denemetwo}>   
                     <img className={styles.categoryImage} key={index} src={categories.image}/>
                     <div className={styles.deneme}>
-                        <div className={styles.categoryTitle}>{categories.title}</div> 
+                        <div className={styles.categoryTitle}>{categories.title}</div>
                     </div>
                     </div>
                 ))
