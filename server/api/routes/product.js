@@ -20,6 +20,17 @@ router.post("/add", async (req, res) => {
 			errorMessage: "Bad request"
 		});
 
+		const getRandomText = () => {
+			let text = "";
+			let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			possible = possible.split("");
+			for (let i = 0; i < 5; i++) {
+				text += possible[Math.floor(Math.random() * possible.length)];
+			}
+			return text;
+		}
+
+		const getRandomTextForModelCode=getRandomText();
 		const getSize = (await db.collection("products").get()).size;
 
 		let productColors = [];
@@ -28,7 +39,7 @@ router.post("/add", async (req, res) => {
 				productId: Number(getSize + index + 1),
 				priceSale: colorItem.priceSale,
 				priceMarket: colorItem.priceMarket,
-				modelCode: colorItem.modelCode,
+				modelCode: `${colorItem.modelCode}-${getRandomTextForModelCode}`,
 				colorName: colorItem.colorName,
 				stock: colorItem.stock,
 				variation: colorItem.variation
@@ -52,7 +63,7 @@ router.post("/add", async (req, res) => {
 			});
 		}
 
-		return res.status({status: true});
+		return res.json({status: true});
 	} catch (e) {
 		return res.status(500).send({status: false, errorMessage: "Internal server error"});
 	}

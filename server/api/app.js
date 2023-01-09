@@ -17,6 +17,7 @@ admin.initializeApp({
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/product");
 var categoryRouter = require("./routes/category");
+var bagRouter = require("./routes/bag");
 
 var app = express();
 
@@ -49,6 +50,7 @@ app.use("/usercrud", indexRouter);
 //app.use("/api", checkTokenFunc);
 app.use("/api/product", userRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/bag", bagRouter);
 
 
 // catch 404 and forward to error handler
